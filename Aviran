@@ -1,0 +1,22 @@
+from pyembroidery import EmbPattern, STITCH, COLOR_CHANGE, END, write_dst
+
+# Create a simple embroidery pattern with the astronaut image's approximate shape
+pattern = EmbPattern()
+
+# Use contours from previous detection to build stitches (simplified representation)
+scale_factor = 0.5  # to reduce size for embroidery
+for contour in contours:
+    if len(contour) > 1:
+        for i, point in enumerate(contour):
+            x, y = int(point[0][0] * scale_factor), int(point[0][1] * scale_factor)
+            pattern.add_stitch_absolute(STITCH, x, y)
+        pattern.add_command(COLOR_CHANGE)  # optional color break between shapes
+
+# End the pattern
+pattern.add_command(END)
+
+# Save as DST file
+dst_file_path = "/mnt/data/astronaut_patch_embroidery.dst"
+write_dst(pattern, dst_file_path)
+
+dst_file_path
